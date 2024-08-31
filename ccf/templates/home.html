@@ -1,0 +1,40 @@
+{% comment %} <html>
+    <head>
+        <title>CCF Detection</title>
+    </head>
+    <body class = "header">
+        <h2>
+            CCF Detection
+        </h2>
+        <form action="/upload/" method="post">
+            {% csrf_token %}
+            <label for="dataset">Choose a CSV file:</label><br>
+            <input type="file" id="dataset" name="dataset" accept=".csv"><br><br>
+            <input type="submit" value="Upload">
+        </form>
+    </body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload CSV</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+          <h1>
+            <p style="text-align: center">Enhancing Credit Card Security</p>
+          </h1>
+        </div>
+      </header>
+    <form action = "/upload/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="csv_file" accept=".csv">
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

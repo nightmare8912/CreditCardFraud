@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display CSV</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main_styles.css' %}">
+    <style>
+        /* Define CSS for scrollable table */
+        .scrollable-table {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 400px; /* Adjust the maximum height as needed */
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#performEdaBtn').click(function() {
+                $.ajax({
+                    url: '/perform_eda/',
+                    type: 'GET',
+                    success: function(response) {
+                        $('#eda_0').attr('src', 'data:image/png;base64,' + response.eda_0);
+                        $('#eda_1').attr('src', 'data:image/png;base64,' + response.eda_1);
+                        $('#eda_2').attr('src', 'data:image/png;base64,' + response.eda_2);
+                    }
+                });
+            });
+            $('#runAlgorithmsBtn').click(function() {
+                $.ajax({
+                    url: '/run_algorithms/',
+                    type: 'GET',
+                    success: function(response) {
+                        $('#log_reg_roc').attr('src', 'data:image/png;base64,' + response.log_reg_roc);
+                        $('#xg_boost_roc').attr('src', 'data:image/png;base64,' + response.xg_boost_roc);
+                        $('#decision_tree_roc').attr('src', 'data:image/png;base64,' + response.decision_tree_roc);
+                        $('#cnn_roc').attr('src', 'data:image/png;base64,' + response.cnn_roc);
+                        $('#cnn_learn_graph_1').attr('src', 'data:image/png;base64,' + response.cnn_learn_graph_1);
+                        $('#cnn_learn_graph_2').attr('src', 'data:image/png;base64,' + response.cnn_learn_graph_2);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>CSV Data</h1>
+    <!-- Wrap the table inside a div with class "scrollable-table" -->
+    <div class="scrollable-table">
+        <table>
+            <thead>
+                <tr>
+                    <!-- Display table header -->
+                    {% for header in csv_data.0 %}
+                    <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in csv_data %}
+                <tr>
+                    <!-- Display table rows -->
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <button id="performEdaBtn">Perform EDA</button>
+    <div>
+        <img id="eda_0" src="" alt="Generated Image">
+    </div>
+    <div>
+        <img id="eda_1" src="" alt="Generated Image">
+    </div>
+    <div>
+        <img id="eda_2" src="" alt="Generated Image">
+    </div>
+
+    <button id="runAlgorithmsBtn">Run Algorithms</button>
+    <h1>Logistic Regression</h1>
+    <div>
+        <img id="log_reg_roc" src="" alt="Generated Image">
+    </div>
+    <h1>XGBoost</h1>
+    <div>
+        <img id="xg_boost_roc" src="" alt="Generated Image">
+    </div>
+    <h1>Decision Tree</h1>
+    <div>
+        <img id="decision_tree_roc" src="" alt="Generated Image">
+    </div>
+    <h1>CNN</h1>
+    <div>
+        <img id="cnn_roc" src="" alt="Generated Image">
+    </div>
+    <div>
+        <img id="cnn_learn_graph_1" src="" alt="Generated Image">
+    </div>
+    <div>
+        <img id="cnn_learn_graph_2" src="" alt="Generated Image">
+    </div>
+</body>
+</html>
